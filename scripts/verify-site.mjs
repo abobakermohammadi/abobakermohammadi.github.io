@@ -41,8 +41,9 @@ for (const file of required) {
 
 for (const file of authoredText.filter(exists)) {
   const text = read(file);
+  const markerSurface = file.endsWith('.html') ? text.replace(/\splaceholder="[^"]*"/gi, '') : text;
   for (const marker of ['TODO', 'FIXME', 'Lorem', 'placeholder', 'dummy', 'stub']) {
-    if (text.includes(marker)) errors.push(`${file}: contains dirty marker "${marker}"`);
+    if (markerSurface.includes(marker)) errors.push(`${file}: contains dirty marker "${marker}"`);
   }
   if (/[\w.+-]+@(gmail|outlook|yahoo)\.[a-z]{2,}/i.test(text)) {
     errors.push(`${file}: contains a consumer email address; use an explicitly public contact channel instead`);
