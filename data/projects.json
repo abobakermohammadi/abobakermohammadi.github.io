@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "updated": "2026-09-11",
   "rules": {
-    "exclude": ["Istanbul X"],
     "featuredRequires": "Enough repository or product evidence to describe the current surface without inventing functionality, status, metrics, clients, revenue or outcomes.",
     "seedMeans": "A repository or documented concept exists, but current evidence is too thin for a promoted case study."
   },
