@@ -1,0 +1,64 @@
+(() => {
+  'use strict';
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const random = (min, max) => Math.random() * (max - min) + min;
+  const pick = list => list[Math.floor(Math.random() * list.length)];
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  let voiceEnabled = false, surge = 0, metricTimer = null, feedTimer = null, recognition = null;
+  const clock = $('#clock');
+  const pad = number => String(number).padStart(2, '0');
+  const updateClock = () => { const now = new Date(); clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`; };
+  updateClock(); setInterval(updateClock, 1000);
+  const updateMetrics = () => { $('#ctx').textContent = `${random(4.4, 5.4).toFixed(1)}M`; $('#load').textContent = `${Math.round(random(54, 74))}%`; $('#health').textContent = Math.round(random(94, 99)); $('#spec').textContent = Math.round(random(17800, 19900)).toLocaleString(); $('#conf').textContent = `${random(91.5, 97.3).toFixed(1)}%`; $('#roi').textContent = Math.round(random(82, 94)); };
+  const startMetrics = () => { if (!metricTimer) metricTimer = setInterval(updateMetrics, 2400); };
+  const stopMetrics = () => { clearInterval(metricTimer); metricTimer = null; };
+  startMetrics();
+  const brain = $('#brain'), context = brain.getContext('2d');
+  const nodes = Array.from({ length: 38 }, () => { const angle = random(0, Math.PI * 2), radius = random(28, 168); return { x: 250 + Math.cos(angle) * radius, y: 250 + Math.sin(angle) * radius * 0.66, vx: random(-0.14, 0.14), vy: random(-0.11, 0.11), radius: random(1.4, 3.3), phase: random(0, Math.PI * 2) }; });
+  const drawBrain = (time = 0) => {
+    context.clearRect(0, 0, 500, 500);
+    const glow = context.createRadialGradient(250, 250, 8, 250, 250, 180); glow.addColorStop(0, `rgba(66,156,255,${0.14 + surge * 0.1})`); glow.addColorStop(1, 'rgba(10,45,130,0)'); context.fillStyle = glow; context.beginPath(); context.arc(250, 250, 185, 0, Math.PI * 2); context.fill();
+    if (!reduceMotion) nodes.forEach(node => { node.x += node.vx * (1 + surge * 2.1); node.y += node.vy * (1 + surge * 2.1); if (node.x < 82 || node.x > 418) node.vx *= -1; if (node.y < 126 || node.y > 374) node.vy *= -1; });
+    for (let i = 0; i < nodes.length; i += 1) for (let j = i + 1; j < nodes.length; j += 1) { const a = nodes[i], b = nodes[j], distance = Math.hypot(a.x - b.x, a.y - b.y); if (distance < 80) { context.strokeStyle = `rgba(92,200,255,${(1 - distance / 80) * (0.17 + surge * 0.1)})`; context.lineWidth = 0.7; context.beginPath(); context.moveTo(a.x, a.y); context.lineTo(b.x, b.y); context.stroke(); } }
+    nodes.forEach(node => { const shimmer = reduceMotion ? 0.58 : 0.45 + (Math.sin(time * 0.002 + node.phase) + 1) * 0.22; context.fillStyle = `rgba(110,225,255,${shimmer})`; context.shadowBlur = 8 + surge * 6; context.shadowColor = '#63dfff'; context.beginPath(); context.arc(node.x, node.y, node.radius + surge * 0.5, 0, Math.PI * 2); context.fill(); context.shadowBlur = 0; });
+    surge *= 0.95; if (!reduceMotion && !document.hidden) requestAnimationFrame(drawBrain);
+  };
+  drawBrain();
+  const toasts = $('#toasts');
+  const toast = (title, detail = '') => { const item = document.createElement('div'); item.className = 'toast'; item.setAttribute('role', 'status'); const strong = document.createElement('strong'), span = document.createElement('span'); strong.textContent = title; span.textContent = detail; item.append(strong, span); toasts.append(item); window.setTimeout(() => item.remove(), 3200); };
+  const speak = text => { if (!voiceEnabled || !('speechSynthesis' in window)) return; window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.rate = 0.93; utterance.pitch = 0.86; utterance.volume = 0.8; window.speechSynthesis.speak(utterance); };
+  const soundButton = $('#sound');
+  soundButton.addEventListener('click', () => { voiceEnabled = !voiceEnabled; soundButton.setAttribute('aria-pressed', String(voiceEnabled)); soundButton.setAttribute('aria-label', voiceEnabled ? 'Disable voice responses' : 'Enable voice responses'); soundButton.querySelector('span').textContent = voiceEnabled ? 'Voice on' : 'Voice off'; if (!voiceEnabled && 'speechSynthesis' in window) window.speechSynthesis.cancel(); toast(voiceEnabled ? 'Voice enabled' : 'Voice disabled', voiceEnabled ? 'Browser speech synthesis is now active.' : 'No audio will play.'); if (voiceEnabled) speak('Voice uplink online.'); });
+  const viz = $('#viz'); for (let i = 0; i < 26; i += 1) { const bar = document.createElement('i'); bar.style.setProperty('--bar', `${random(8, 38)}px`); bar.style.setProperty('--delay', `${-random(0, 0.9)}s`); viz.append(bar); }
+  const agentNames = ['Scout-7', 'Memory Keeper', 'Risk Oracle', 'UI Critic', 'Planner-3', 'Synthesis Core', 'Validator-9'];
+  const agentActions = ['mapped simulated intent', 'compressed 18 fake memories', 'simulated 64 outcomes', 'criticized another agent', 'created a plan for the plan', 'found a suspiciously good metric', 'reduced token entropy'];
+  const addFeedItem = () => { const row = document.createElement('div'); row.className = 'feed-item'; const dot = document.createElement('i'), copy = document.createElement('span'), name = document.createElement('strong'), action = document.createElement('small'); name.textContent = pick(agentNames); action.textContent = pick(agentActions); copy.append(name, action); row.append(dot, copy); $('#feed').prepend(row); while ($('#feed').children.length > 5) $('#feed').lastElementChild.remove(); };
+  for (let i = 0; i < 4; i += 1) addFeedItem();
+  const startFeed = () => { if (!feedTimer) feedTimer = setInterval(addFeedItem, reduceMotion ? 5000 : 2800); };
+  const stopFeed = () => { clearInterval(feedTimer); feedTimer = null; };
+  startFeed();
+  const replies = ['I analyzed 18,204 speculative futures. The optimal action is to open another dashboard.','Cross-referencing memory, market signals, and absolutely nothing real. Confidence is ninety six percent.','I delegated this to seven imaginary agents. They recommend adding more glowing circles.','The system optimized your entire life. Estimated improvement: suspiciously high.','I found a simpler way, but it had fewer animations, so I rejected it.','Meta reasoner says the reason for this decision is: it looked impressive in a screenshot.'];
+  const ask = raw => { const query = raw.trim(); if (!query) return; $('#transcript').textContent = `“${query}”`; toast('Command accepted', 'Routing through 32 imaginary specialists…'); surge = 1; $('#kernel').classList.add('is-hot'); window.setTimeout(() => $('#kernel').classList.remove('is-hot'), 850); window.setTimeout(() => { const answer = pick(replies); $('#transcript').textContent = answer; speak(answer); addFeedItem(); }, reduceMotion ? 120 : 520); };
+  const commandInput = $('#input');
+  $('#send').addEventListener('click', () => { ask(commandInput.value); commandInput.value = ''; commandInput.focus(); });
+  commandInput.addEventListener('keydown', event => { if (event.key === 'Enter') { ask(commandInput.value); commandInput.value = ''; } });
+  $$('.quick button').forEach(button => button.addEventListener('click', () => ask(button.textContent)));
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition, micButton = $('#mic');
+  if (Recognition) { recognition = new Recognition(); recognition.lang = 'en-US'; recognition.onstart = () => { micButton.classList.add('is-listening'); micButton.setAttribute('aria-pressed', 'true'); micButton.setAttribute('aria-label', 'Stop voice input'); $('#transcript').textContent = 'Listening…'; }; recognition.onend = () => { micButton.classList.remove('is-listening'); micButton.setAttribute('aria-pressed', 'false'); micButton.setAttribute('aria-label', 'Start voice input'); }; recognition.onerror = () => toast('Voice input unavailable', 'Use the text command field instead.'); recognition.onresult = event => { const query = event.results[0][0].transcript; commandInput.value = query; ask(query); }; micButton.addEventListener('click', () => { try { if (micButton.getAttribute('aria-pressed') === 'true') recognition.stop(); else recognition.start(); } catch { toast('Voice input busy', 'Try again in a moment or use text input.'); } }); } else { micButton.disabled = true; micButton.setAttribute('aria-label', 'Voice input unavailable in this browser'); micButton.title = 'Voice input unavailable in this browser'; }
+  $('#surge').addEventListener('click', () => { surge = 1.25; $('#kernel').classList.add('is-hot'); toast('Cognitive surge initiated', 'Spending 14,000 imaginary tokens to move one glowing dot.'); speak('Cognitive surge initiated. All systems pretending to think harder.'); window.setTimeout(() => $('#kernel').classList.remove('is-hot'), 900); });
+  const qualityButtons = $$('#chain button'); let qualityRun = 0;
+  const runQualityChain = () => { qualityRun += 1; const currentRun = qualityRun; qualityButtons.forEach(button => { button.classList.remove('is-running', 'is-done'); button.querySelector('em').textContent = 'QUEUED'; }); qualityButtons.forEach((button, index) => { window.setTimeout(() => { if (currentRun !== qualityRun) return; if (index > 0) { qualityButtons[index - 1].classList.remove('is-running'); qualityButtons[index - 1].classList.add('is-done'); qualityButtons[index - 1].querySelector('em').textContent = 'PASS'; } button.classList.add('is-running'); button.querySelector('em').textContent = 'RUNNING'; addFeedItem(); if (index === qualityButtons.length - 1) window.setTimeout(() => { if (currentRun !== qualityRun) return; button.classList.remove('is-running'); button.classList.add('is-done'); button.querySelector('em').textContent = 'PASS'; toast('Quality gate passed', 'No evidence was harmed during validation.'); }, reduceMotion ? 120 : 500); }, index * (reduceMotion ? 120 : 520)); }); };
+  qualityButtons.forEach(button => button.addEventListener('click', runQualityChain));
+  $('#launch').addEventListener('click', () => { toast('Swarm simulation started', '12 CSS specialists are now looking extremely busy.'); speak('Agent swarm simulation online.'); runQualityChain(); for (let i = 0; i < 6; i += 1) window.setTimeout(addFeedItem, i * (reduceMotion ? 80 : 180)); });
+  $$('.memory-item').forEach(button => button.addEventListener('click', () => { $$('.memory-item').forEach(item => { item.classList.remove('is-active'); item.setAttribute('aria-pressed', 'false'); }); button.classList.add('is-active'); button.setAttribute('aria-pressed', 'true'); toast(button.querySelector('strong').textContent, 'Simulated memory graph re-indexed in 14 milliseconds. Obviously.'); }));
+  $$('.timeline button').forEach(button => button.addEventListener('click', () => toast(button.querySelector('strong').textContent, 'Expanded into 47 fictional sub-plans.')));
+  $$('.meta-bar nav button').forEach(button => button.addEventListener('click', () => { const answer = pick(replies); toast(button.textContent, answer); speak(answer); }));
+  const realityButton = $('#reality'), truth = $('#truth');
+  const closeDialog = () => { if (truth.open) truth.close(); };
+  realityButton.addEventListener('click', () => { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); truth.showModal(); });
+  $('#close').addEventListener('click', closeDialog); $('#resume').addEventListener('click', closeDialog);
+  truth.addEventListener('click', event => { if (event.target !== truth) return; const box = truth.getBoundingClientRect(); const inside = event.clientX >= box.left && event.clientX <= box.right && event.clientY >= box.top && event.clientY <= box.bottom; if (!inside) closeDialog(); });
+  truth.addEventListener('close', () => realityButton.focus());
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { stopMetrics(); stopFeed(); if ('speechSynthesis' in window) window.speechSynthesis.pause(); } else { startMetrics(); startFeed(); if (!reduceMotion) requestAnimationFrame(drawBrain); if ('speechSynthesis' in window) window.speechSynthesis.resume(); } });
+})();
