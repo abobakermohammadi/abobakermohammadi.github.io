@@ -12,51 +12,38 @@ function render(q=''){
   const filtered=projects.filter(p=>!needle||(p.name+' '+p.type+' '+p.status+' '+p.keywords).toLowerCase().includes(needle));
   results.innerHTML=filtered.map((p,i)=>`<a href="${p.href}" data-result="${i}"><span><strong>${p.name}</strong><br><small>${p.type} · ${p.status}</small></span><span aria-hidden="true">↗</span></a>`).join('')||'<div style="padding:18px;color:#777" role="status">No matching build.</div>';
 }
-function setSearchState(open){
-  searchTriggers.forEach(b=>b.setAttribute('aria-expanded',String(open)));
-  modal?.setAttribute('aria-hidden',String(!open));
-}
-function openSearch(){
-  if(!modal)return;
-  previousFocus=document.activeElement;
-  modal.classList.add('open');
-  document.body.style.overflow='hidden';
-  setSearchState(true);
-  render(input?.value||'');
-  setTimeout(()=>input?.focus(),20);
-}
-function closeSearch(){
-  if(!modal)return;
-  modal.classList.remove('open');
-  document.body.style.overflow='';
-  setSearchState(false);
-  if(previousFocus instanceof HTMLElement)previousFocus.focus();
-}
-function moveResult(delta){
-  const links=[...results?.querySelectorAll('a')||[]];
-  if(!links.length)return;
-  const current=links.indexOf(document.activeElement);
-  const next=current<0?(delta>0?0:links.length-1):(current+delta+links.length)%links.length;
-  links[next].focus();
-}
+function setSearchState(open){searchTriggers.forEach(b=>b.setAttribute('aria-expanded',String(open)));modal?.setAttribute('aria-hidden',String(!open))}
+function openSearch(){if(!modal)return;previousFocus=document.activeElement;modal.classList.add('open');document.body.style.overflow='hidden';setSearchState(true);render(input?.value||'');setTimeout(()=>input?.focus(),20)}
+function closeSearch(){if(!modal)return;modal.classList.remove('open');document.body.style.overflow='';setSearchState(false);if(previousFocus instanceof HTMLElement)previousFocus.focus()}
+function moveResult(delta){const links=[...results?.querySelectorAll('a')||[]];if(!links.length)return;const current=links.indexOf(document.activeElement);const next=current<0?(delta>0?0:links.length-1):(current+delta+links.length)%links.length;links[next].focus()}
 searchTriggers.forEach(b=>{b.setAttribute('aria-haspopup','dialog');b.setAttribute('aria-expanded','false');b.addEventListener('click',openSearch)});
 input?.addEventListener('input',e=>render(e.target.value));
 input?.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();moveResult(1)}if(e.key==='ArrowUp'){e.preventDefault();moveResult(-1)}});
 results?.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();moveResult(1)}if(e.key==='ArrowUp'){e.preventDefault();moveResult(-1)}if(e.key==='Home'){e.preventDefault();results.querySelector('a')?.focus()}if(e.key==='End'){e.preventDefault();[...results.querySelectorAll('a')].at(-1)?.focus()}});
 modal?.addEventListener('click',e=>{if(e.target===modal)closeSearch()});
 setSearchState(false);
+
 document.addEventListener('keydown',e=>{
   if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch()}
   if(e.key==='Escape'&&modal?.classList.contains('open')){e.preventDefault();closeSearch()}
   if(e.key==='Enter'&&modal?.classList.contains('open')&&document.activeElement===input){const first=results?.querySelector('a');if(first)location.href=first.href}
-  if(e.key==='Tab'&&modal?.classList.contains('open')){
-    const focusables=[...modal.querySelectorAll('input,a,button,[tabindex]:not([tabindex="-1"])')];
-    if(!focusables.length)return;
-    const first=focusables[0],last=focusables[focusables.length-1];
-    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
-    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
-  }
+  if(e.key==='Tab'&&modal?.classList.contains('open')){const focusables=[...modal.querySelectorAll('input,a,button,[tabindex]:not([tabindex="-1"])')];if(!focusables.length)return;const first=focusables[0],last=focusables[focusables.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
 });
+
+const proofToggle=document.querySelector('[data-proof-toggle]');
+function setProofMode(on,{persist=true}={}){
+  document.body.classList.toggle('proof-mode',on);
+  proofToggle?.setAttribute('aria-pressed',String(on));
+  if(proofToggle)proofToggle.textContent=on?'Proof mode ✓':'Proof mode';
+  if(persist){try{localStorage.setItem('am-proof-mode',on?'1':'0')}catch{}}
+}
+if(proofToggle){
+  let initial=false;
+  try{initial=localStorage.getItem('am-proof-mode')==='1'}catch{}
+  if(new URLSearchParams(location.search).get('proof')==='1')initial=true;
+  setProofMode(initial,{persist:false});
+  proofToggle.addEventListener('click',()=>setProofMode(!document.body.classList.contains('proof-mode')));
+}
 
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer=matchMedia('(pointer:fine)').matches;
