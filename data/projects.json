@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-09-11",
+  "rules": {
+    "exclude": ["Istanbul X"],
+    "featuredRequires": "Enough repository or product evidence to describe the current surface without inventing functionality, status, metrics, clients, revenue or outcomes.",
+    "seedMeans": "A repository or documented concept exists, but current evidence is too thin for a promoted case study."
+  },
+  "projects": [
+    {
+      "id": "sprachprep",
+      "name": "SprachPrep",
+      "status": "live-product",
+      "category": ["education", "native"],
+      "surface": ["web", "iOS"],
+      "visibility": "private-source",
+      "featured": true,
+      "sourceRepository": "abobakermohammadi/bestehen-app",
+      "caseStudy": "/projects/sprachprep/",
+      "truth": "German exam preparation product with web and native iOS work; private source is not exposed from this portfolio."
+    },
+    {
+      "id": "mamelat",
+      "name": "MAMELAT",
+      "status": "building",
+      "category": ["business", "real-estate"],
+      "surface": ["web", "browser-local owner console"],
+      "visibility": "public-source",
+      "featured": true,
+      "sourceRepository": "abobakermohammadi/FIDEON-realstate",
+      "caseStudy": "/projects/mamelat/",
+      "truth": "Turkish-first Istanbul real-estate experience with truthful empty inventory and browser-local owner tooling."
+    },
+    {
+      "id": "newapp",
+      "name": "NEWAPP",
+      "status": "experiment",
+      "category": ["native", "books"],
+      "surface": ["iPhone", "SwiftUI"],
+      "visibility": "private-source",
+      "featured": true,
+      "sourceRepository": "abobakermohammadi/newapp",
+      "caseStudy": "/projects/newapp/",
+      "truth": "Native iPhone-first book discovery experiment with local state and evidence-gated provider capabilities."
+    },
+    {
+      "id": "aegis",
+      "name": "AEGIS",
+      "status": "open-source",
+      "category": ["agents", "developer-tools"],
+      "surface": ["CLI", "skills", "benchmark harness"],
+      "visibility": "public-source",
+      "featured": true,
+      "sourceRepository": "abobakermohammadi/aegis",
+      "caseStudy": "/projects/aegis/",
+      "truth": "Agent mission system built around durable state, executed evidence, capability probes and release gates."
+    },
+    {
+      "id": "sineklik",
+      "name": "Sineklik İstanbul",
+      "status": "built",
+      "category": ["business", "local-service"],
+      "surface": ["web", "customer portal", "admin"],
+      "visibility": "public-source",
+      "featured": true,
+      "sourceRepository": "abobakermohammadi/sineklik-istanbul",
+      "caseStudy": "/projects/sineklik/",
+      "truth": "Local-service product spanning guided discovery, configuration, appointments, messaging, quotes, portal and admin."
+    },
+    {
+      "id": "aurel",
+      "name": "AUREL Beauty Edit",
+      "status": "experiment",
+      "category": ["commerce", "editorial"],
+      "surface": ["web"],
+      "visibility": "private-source",
+      "featured": true,
+      "sourceRepository": "abobakermohammadi/123",
+      "caseStudy": "/projects/aurel/",
+      "truth": "Editorial affiliate/discovery storefront; Drop 001 contains researched KIKO MILANO products and links to real retailers rather than faking checkout."
+    },
+    {
+      "id": "atlas-seed",
+      "name": "Atlas",
+      "status": "seed",
+      "category": ["experiment"],
+      "surface": ["engineering handbook"],
+      "visibility": "private-source",
+      "featured": false,
+      "sourceRepository": "abobakermohammadi/Atlas",
+      "truth": "An initialized engineering-handbook seed with insufficient implementation evidence for a promoted case study."
+    }
+  ]
+}
