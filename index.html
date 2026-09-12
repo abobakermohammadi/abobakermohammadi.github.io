@@ -10,97 +10,83 @@
   <meta property="og:description" content="Products, apps, businesses and experiments built by Abobaker Mohammadi.">
   <meta property="og:url" content="https://abobakermohammadi.github.io/">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#f3f0e8">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="theme-color" content="#f7f7f4">
   <link rel="stylesheet" href="/experience.css">
   <link rel="stylesheet" href="/proof.css">
   <link rel="icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.webmanifest">
 </head>
-<body class="museum-home">
+<body class="folio-home">
   <a class="skip-link" href="#work">Skip to work</a>
-  <canvas id="am-world" aria-hidden="true"></canvas>
-  <div class="museum-wash" aria-hidden="true"></div>
-  <div class="museum-transition" aria-hidden="true"></div>
-
-  <header class="museum-nav">
-    <a class="museum-brand" href="#origin" aria-label="Abobaker Mohammadi home"><b>AM</b><span>ABOBAKER<br>MOHAMMADI</span></a>
-    <div class="museum-status" aria-hidden="true"><span class="museum-scene-name">INDEX</span><i></i><span class="museum-scene-count">00 / 06</span></div>
-    <nav aria-label="Primary">
-      <a href="#work">WORK</a>
-      <a href="#about">ABOUT</a>
-      <button class="proof-toggle" type="button" data-proof-toggle aria-pressed="false">PROOF</button>
-      <button class="search-trigger" type="button" data-search aria-label="Search projects">⌘K</button>
-    </nav>
+  <header class="site-nav">
+    <a class="brand" href="#top" aria-label="Abobaker Mohammadi home"><span class="brand-dot">AM</span><span>Abobaker Mohammadi</span></a>
+    <nav aria-label="Primary"><a href="#work">Work</a><a href="#about">About</a><button type="button" class="proof-toggle" data-proof-toggle aria-pressed="false">Proof</button><button type="button" class="search-trigger" data-search aria-label="Search projects">⌘K</button></nav>
   </header>
 
-  <div class="museum-progress" aria-hidden="true"><i></i></div>
-  <div class="museum-cursor" aria-hidden="true"><span>VIEW</span></div>
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-main">
+        <p class="eyebrow">Independent builder · Istanbul · 2026</p>
+        <h1>I build products<br><span>people can use.</span></h1>
+        <p class="hero-copy">Web products, native apps, business systems and experiments. I care about the part after the mockup, when the thing has to actually work.</p>
+        <div class="hero-actions"><a href="#work" class="primary-link">Selected work ↓</a><a href="https://github.com/abobakermohammadi" class="quiet-link">GitHub ↗</a></div>
+      </div>
+      <aside class="hero-aside" aria-label="Portfolio summary">
+        <div class="now-card"><span class="pulse"></span><div><small>NOW</small><strong>Building, testing, shipping.</strong></div></div>
+        <div class="hero-stat"><strong>06</strong><span>selected builds</span></div>
+        <div class="hero-stat"><strong>Web → Native</strong><span>education, real estate, commerce, agents</span></div>
+      </aside>
+    </section>
 
-  <main id="work">
-    <section class="museum-scene museum-origin" id="origin" data-index="0" data-name="INDEX" style="--accent:#3157ff;--tint:#e8ebff">
-      <div class="museum-frame hero-frame">
-        <p class="museum-kicker">INDEPENDENT BUILDER · ISTANBUL · 2026</p>
-        <p class="museum-side">PRODUCTS / APPS / BUSINESSES / EXPERIMENTS</p>
-        <h1><span>ABOBAKER</span><span>BUILDS.</span></h1>
-        <div class="hero-foot">
-          <p>I turn ideas into real products, then keep pulling on the thread until they either work or deserve to disappear.</p>
-          <a href="#sprachprep" class="scroll-mark"><span>SELECTED WORK</span><i></i></a>
-        </div>
+    <section class="work shell" id="work">
+      <div class="section-head"><p class="eyebrow">Selected work</p><p>Six different products. Six different jobs to be done.</p></div>
+      <div class="project-grid">
+        <a class="project-card project-card--wide project-card--sprach" data-proof="PRIVATE SOURCE · current product state verified without exposing private code" href="/projects/sprachprep/">
+          <div class="project-visual sprach-visual" aria-hidden="true"><div class="browser-shell"><div class="browser-top"><i></i><i></i><i></i><span>sprachprep.com</span></div><div class="sprach-app"><aside><b>S</b><span class="active"></span><span></span><span></span><span></span></aside><div class="sprach-main"><div class="mini-label">TODAY</div><h3>Keep your streak alive.</h3><div class="skill-row"><div><b>Hören</b><span>12 min</span></div><div><b>Lesen</b><span>8 min</span></div><div><b>Schreiben</b><span>15 min</span></div><div><b>Sprechen</b><span>10 min</span></div></div><div class="progress-card"><div><small>B1 MOCK EXAM</small><strong>72%</strong></div><div class="progress-line"><i></i></div></div></div></div></div></div>
+          <div class="project-info"><div><span class="project-index">01</span><span class="project-meta">Education · Web + iOS · Live</span></div><h2>SprachPrep</h2><p>German exam preparation turned into a full training product with practice, mock exams, progress systems and native iOS.</p><span class="open-project">Open case study ↗</span></div>
+        </a>
+
+        <a class="project-card project-card--mamelat" data-proof="PUBLIC SOURCE · truthful inventory and direct contact flow" href="/projects/mamelat/">
+          <div class="project-visual mamelat-visual" aria-hidden="true"><img src="/assets/mamelat-mark.svg" alt=""><div class="building b1"></div><div class="building b2"></div><div class="building b3"></div><div class="property-pill"><small>ISTANBUL · BÜYÜKÇEKMECE</small><strong>2+1 / 129 m²</strong><span>View property →</span></div></div>
+          <div class="project-info"><div><span class="project-index">02</span><span class="project-meta">Real estate · Istanbul</span></div><h2>MAMELAT</h2><p>Property discovery stripped down to clarity, trust and a fast path to a human.</p><span class="open-project">Open case study ↗</span></div>
+        </a>
+
+        <a class="project-card project-card--newapp" data-proof="PRIVATE SOURCE · native SwiftUI experiment with evidence-gated release checks" href="/projects/newapp/">
+          <div class="project-visual newapp-visual" aria-hidden="true"><div class="phone"><div class="phone-island"></div><div class="phone-screen"><small>GOOD MORNING</small><h3>Find your next book.</h3><div class="book-stack"><i></i><i></i><i></i></div><div class="phone-tabs"><span>Home</span><span>Library</span><span>Search</span></div></div></div><div class="floating-book fb1"></div><div class="floating-book fb2"></div></div>
+          <div class="project-info"><div><span class="project-index">03</span><span class="project-meta">Native · SwiftUI</span></div><h2>NEWAPP</h2><p>A deliberately constrained iPhone experiment around books, local state and honest provider boundaries.</p><span class="open-project">Open case study ↗</span></div>
+        </a>
+
+        <a class="project-card project-card--aurel" data-proof="PRIVATE SOURCE · researched editorial commerce experiment with real retailer handoff" href="/projects/aurel/">
+          <div class="project-visual aurel-visual" aria-hidden="true"><div class="aurel-word">AUREL</div><div class="beauty-object lipstick"><i></i></div><div class="beauty-object compact"><i></i></div><div class="beauty-object bottle"><i></i></div><span class="editorial-note">THE BEAUTY EDIT / 01</span></div>
+          <div class="project-info"><div><span class="project-index">04</span><span class="project-meta">Editorial commerce</span></div><h2>AUREL</h2><p>A beauty storefront designed like an editorial selection instead of a warehouse catalog.</p><span class="open-project">Open case study ↗</span></div>
+        </a>
+
+        <a class="project-card project-card--aegis" data-proof="PUBLIC SOURCE · mission engine, skills and executable verification harness" href="/projects/aegis/">
+          <div class="project-visual aegis-visual" aria-hidden="true"><img src="/assets/aegis-mark.svg" alt=""><div class="terminal"><div class="terminal-top">mission / release-gate</div><p><span>✓</span> evidence collected</p><p><span>✓</span> checks executable</p><p><span>✓</span> release gate passed</p><code>DONE = proof, not prose.</code></div><div class="node n1"></div><div class="node n2"></div><div class="node n3"></div><div class="node n4"></div></div>
+          <div class="project-info"><div><span class="project-index">05</span><span class="project-meta">Agent systems · Open source</span></div><h2>AEGIS</h2><p>A mission system for coding agents where completion is earned with state, evidence and executable checks.</p><span class="open-project">Open case study ↗</span></div>
+        </a>
+
+        <a class="project-card project-card--wide project-card--sineklik" data-proof="PUBLIC SOURCE · full local-service workflow from finder to admin" href="/projects/sineklik/">
+          <div class="project-visual sineklik-visual" aria-hidden="true"><div class="window-frame"><div class="mesh-grid"></div><div class="window-panel"></div></div><div class="config-card"><small>HANGİ SİNEKLİK?</small><strong>Size en uygun modeli bulalım.</strong><div class="config-options"><span>Pencere</span><span>Balkon</span><span>Sürgülü</span></div><button>Devam →</button></div></div>
+          <div class="project-info"><div><span class="project-index">06</span><span class="project-meta">Local business OS · Full stack</span></div><h2>Sineklik İstanbul</h2><p>A local service website that grew into discovery, configuration, appointments, chat, quotes, customer portal and admin.</p><span class="open-project">Open case study ↗</span></div>
+        </a>
       </div>
     </section>
 
-    <section class="museum-scene" id="sprachprep" data-index="1" data-name="SPRACHPREP" style="--accent:#3157ff;--tint:#e7ebff">
-      <a class="project-card museum-project" data-project="sprachprep" data-proof="PRIVATE SOURCE · current product state verified without exposing private code" href="/projects/sprachprep/">
-        <div class="project-copy"><div class="project-top"><span>01</span><span>FLAGSHIP · EDUCATION · WEB + IOS</span></div><h2>SprachPrep</h2><p>German exam preparation turned into a real training product: practice, feedback, mock exams, progress and native iOS.</p><span class="project-cta">VIEW PROJECT <i>↗</i></span></div>
-        <div class="object-note"><b>01</b><span>One system.<br>Four exam skills.</span></div>
-      </a>
+    <section class="principles shell">
+      <div class="section-head"><p class="eyebrow">How I build</p><p>Less presentation theater. More things that survive real users.</p></div>
+      <div class="principle-grid"><article><span>01</span><h3>Make the next step obvious.</h3><p>Good products remove decisions instead of adding UI.</p></article><article><span>02</span><h3>Show the truth.</h3><p>No fake inventory, fake metrics or fake integrations.</p></article><article><span>03</span><h3>Ship the boring parts.</h3><p>Recovery, admin, failure states and release checks are product work too.</p></article></div>
     </section>
 
-    <section class="museum-scene" id="mamelat" data-index="2" data-name="MAMELAT" style="--accent:#9a7048;--tint:#efe5d7">
-      <a class="project-card museum-project reverse" data-project="mamelat" data-proof="PUBLIC SOURCE · truthful inventory and direct contact flow" href="/projects/mamelat/">
-        <div class="project-copy"><div class="project-top"><span>02</span><span>REAL ESTATE · ISTANBUL · BUILDING</span></div><h2>MAMELAT</h2><p>A property experience built around clarity: understand the place, understand the numbers, then talk to a human.</p><span class="project-cta">VIEW PROJECT <i>↗</i></span></div>
-        <div class="object-note"><b>02</b><span>Property without<br>the portal clutter.</span></div>
-      </a>
-    </section>
-
-    <section class="museum-scene" id="newapp" data-index="3" data-name="NEWAPP" style="--accent:#e24b38;--tint:#fde7e1">
-      <a class="project-card museum-project" data-project="newapp" data-proof="PRIVATE SOURCE · native SwiftUI experiment with evidence-gated release checks" href="/projects/newapp/">
-        <div class="project-copy"><div class="project-top"><span>03</span><span>NATIVE · SWIFTUI · IPHONE</span></div><h2>NEWAPP</h2><p>A deliberately constrained native experiment about books, local state and refusing to pretend a provider can do something it cannot prove.</p><span class="project-cta">VIEW PROJECT <i>↗</i></span></div>
-        <div class="object-note"><b>03</b><span>Small surface.<br>Hard boundaries.</span></div>
-      </a>
-    </section>
-
-    <section class="museum-scene" id="aurel" data-index="4" data-name="AUREL" style="--accent:#a95872;--tint:#f6e0e7">
-      <a class="project-card museum-project reverse" data-project="aurel" data-proof="PRIVATE SOURCE · researched editorial commerce experiment with real retailer handoff" href="/projects/aurel/">
-        <div class="project-copy"><div class="project-top"><span>04</span><span>EDITORIAL COMMERCE · BEAUTY</span></div><h2>AUREL</h2><p>A beauty storefront treated like an edit instead of a warehouse. Curate here, understand here, buy from the real retailer.</p><span class="project-cta">VIEW PROJECT <i>↗</i></span></div>
-        <div class="object-note"><b>04</b><span>Commerce with<br>a point of view.</span></div>
-      </a>
-    </section>
-
-    <section class="museum-scene" id="aegis" data-index="5" data-name="AEGIS" style="--accent:#16845e;--tint:#e3f2e9">
-      <a class="project-card museum-project" data-project="aegis" data-proof="PUBLIC SOURCE · mission engine, skills and executable verification harness" href="/projects/aegis/">
-        <div class="project-copy"><div class="project-top"><span>05</span><span>AGENT SYSTEMS · OPEN SOURCE</span></div><h2>AEGIS</h2><p>A mission system for coding agents where completion is earned with state, evidence and executable checks, not confident prose.</p><span class="project-cta">VIEW PROJECT <i>↗</i></span></div>
-        <div class="object-note"><b>05</b><span>Evidence before<br>confidence.</span></div>
-      </a>
-    </section>
-
-    <section class="museum-scene" id="sineklik" data-index="6" data-name="SINEKLIK" style="--accent:#26705d;--tint:#e2f3ec">
-      <a class="project-card museum-project reverse" data-project="sineklik" data-proof="PUBLIC SOURCE · full local-service workflow from finder to admin" href="/projects/sineklik/">
-        <div class="project-copy"><div class="project-top"><span>06</span><span>LOCAL BUSINESS OS · FULL STACK</span></div><h2>Sineklik İstanbul</h2><p>A local service site that grew into product discovery, configuration, appointments, chat, quotes, customer portal and admin.</p><span class="project-cta">VIEW PROJECT <i>↗</i></span></div>
-        <div class="object-note"><b>06</b><span>From one request<br>to a whole workflow.</span></div>
-      </a>
-    </section>
-
-    <section class="museum-about" id="about">
-      <div class="about-rule"></div><p class="museum-kicker">ABOUT</p><h2>I like the point where an idea stops being a mockup and starts fighting back.</h2>
-      <div class="about-bottom"><p>I’m Abobaker Mohammadi. I build across education, native apps, real estate, local business, commerce and agent tooling. Some ship. Some pivot. Some die. The useful ones survive contact with reality.</p><div><a href="https://github.com/abobakermohammadi">GITHUB ↗</a><a href="/ledger/">BUILD LEDGER ↗</a><button type="button" data-search>SEARCH ⌘K</button></div></div>
+    <section class="about shell" id="about">
+      <p class="eyebrow">About</p>
+      <div class="about-grid"><h2>I like the moment an idea stops being a mockup and starts fighting back.</h2><div><p>I’m Abobaker Mohammadi. I build across education, native apps, real estate, local business, commerce and agent tooling. Some things ship. Some pivot. Some deserve to die. The useful ones survive contact with reality.</p><div class="about-links"><a href="https://github.com/abobakermohammadi">GitHub ↗</a><a href="/ledger/">Build ledger ↗</a><button type="button" data-search>Search everything ⌘K</button></div></div></div>
     </section>
   </main>
 
+  <footer class="site-footer shell"><span>© 2026 Abobaker Mohammadi</span><span>Still building.</span></footer>
   <div class="proof-banner" role="status"><strong>PROOF MODE / ON</strong><br>Project claims expose their evidence class. Machine-readable project truth lives at <a href="/data/projects.json">/data/projects.json</a>.</div>
   <div class="search" role="dialog" aria-modal="true" aria-label="Project search" aria-hidden="true"><div class="search-panel"><input id="project-search" autocomplete="off" placeholder="Type a project, platform, industry…"><div class="search-results"></div></div></div>
-  <script type="module" src="/world.js"></script>
   <script src="/home-ui.js"></script>
 </body>
 </html>
