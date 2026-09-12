@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: 22
       - name: Check JavaScript syntax
-        run: node --check app.js
+        run: |
+          node --check app.js
+          node --check vanta-drive/main.js
       - name: Verify routes, links, metadata and manifests
         run: node scripts/verify-site.mjs
