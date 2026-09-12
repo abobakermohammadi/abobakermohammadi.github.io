@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="theme-light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -10,10 +10,12 @@
   <meta property="og:description" content="Products, apps, businesses and experiments built by Abobaker Mohammadi.">
   <meta property="og:url" content="https://abobakermohammadi.github.io/">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#eee9df">
+  <meta name="theme-color" content="#f4efe6">
+  <script>try{if(localStorage.getItem('am-theme')==='dark'){document.documentElement.className='theme-dark'}}catch{}</script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="/experience.css">
   <link rel="stylesheet" href="/proof.css">
+  <link rel="stylesheet" href="/theme.css">
   <link rel="icon" href="/favicon.svg">
   <link rel="manifest" href="/manifest.webmanifest">
 </head>
@@ -29,6 +31,7 @@
     <nav aria-label="Primary">
       <a href="#work">WORK</a>
       <a href="#about">ABOUT</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">MIDNIGHT</button>
       <button class="proof-toggle" type="button" data-proof-toggle aria-pressed="false">PROOF</button>
       <button class="search-trigger" type="button" data-search aria-label="Search projects">⌘K</button>
     </nav>
