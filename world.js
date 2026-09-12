@@ -12,6 +12,9 @@ const progressBar=document.querySelector('.x-progress i');
 const sceneName=document.querySelector('.x-scene-name');
 const sceneCount=document.querySelector('.x-scene-count');
 const scenes=[...document.querySelectorAll('.x-scene')];
+const themeToggle=document.querySelector('[data-theme-toggle]');
+const themeMeta=document.querySelector('meta[name="theme-color"]');
+let darkMode=document.documentElement.classList.contains('theme-dark');
 
 let renderer;
 try{renderer=new THREE.WebGLRenderer({canvas,antialias:!mobile,alpha:false,powerPreference:'high-performance'});}catch(err){console.warn('WebGL unavailable',err);throw err;}
@@ -119,16 +122,31 @@ for(let i=0;i<6;i++){
 }
 
 // Dust that makes camera travel legible
-const dustCount=mobile?650:1600;const dustPos=new Float32Array(dustCount*3);for(let i=0;i<dustCount;i++){dustPos[i*3]=mix(-10,10,Math.random());dustPos[i*3+1]=mix(-7,7,Math.random());dustPos[i*3+2]=mix(8,-94,Math.random())}const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xffffff,size:mobile?.025:.035,transparent:true,opacity:.34,sizeAttenuation:true}));scene.add(dust);
+const dustCount=mobile?650:1600;const dustPos=new Float32Array(dustCount*3);for(let i=0;i<dustCount;i++){dustPos[i*3]=mix(-10,10,Math.random());dustPos[i*3+1]=mix(-7,7,Math.random());dustPos[i*3+2]=mix(8,-94,Math.random())}const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));const dustMaterial=new THREE.PointsMaterial({color:0x25221d,size:mobile?.025:.035,transparent:true,opacity:.14,sizeAttenuation:true});const dust=new THREE.Points(dustGeo,dustMaterial);scene.add(dust);
 
-const palette=['#eee9df','#163ccf','#e7ddcc','#e14331','#efc3cf','#10110f','#a9dfca'];
+const lightPalette=['#f4efe6','#e8edff','#eee4d7','#ffe7e1','#f8dde4','#e7f6ec','#dff4ea'];
+const darkPalette=['#eee9df','#163ccf','#e7ddcc','#e14331','#efc3cf','#10110f','#a9dfca'];
 const names=['ORIGIN','SPRACHPREP','MAMELAT','NEWAPP','AUREL','AEGIS','SINEKLIK'];
-const bgColors=palette.map(c=>new THREE.Color(c));
+const lightBgColors=lightPalette.map(c=>new THREE.Color(c));
+const darkBgColors=darkPalette.map(c=>new THREE.Color(c));
 const tempColor=new THREE.Color();
 const look=new THREE.Vector3();
 const camX=[6.2,-4.8,5.1,-4.7,5.2,-4.6,5.3];
 const camY=[2.1,1.5,1.8,1.2,1.55,2.2,1.5];
 let px=0,py=0,tpx=0,tpy=0,lastY=scrollY,velocity=0,time=0,hoverProject=-1;
+
+function applyTheme(nextDark,{persist=true}={}){
+ darkMode=nextDark;
+ document.documentElement.classList.toggle('theme-dark',darkMode);
+ document.documentElement.classList.toggle('theme-light',!darkMode);
+ if(themeToggle){themeToggle.textContent=darkMode?'DAYLIGHT':'MIDNIGHT';themeToggle.setAttribute('aria-pressed',String(darkMode));themeToggle.setAttribute('aria-label',darkMode?'Switch to light mode':'Switch to dark mode')}
+ if(themeMeta)themeMeta.setAttribute('content',darkMode?'#10110f':'#f4efe6');
+ dustMaterial.color.set(darkMode?0xffffff:0x25221d);dustMaterial.opacity=darkMode?.34:.14;
+ renderer.toneMappingExposure=darkMode?1.15:1.05;
+ if(persist){try{localStorage.setItem('am-theme',darkMode?'dark':'light')}catch{}}
+}
+applyTheme(darkMode,{persist:false});
+themeToggle?.addEventListener('click',()=>applyTheme(!darkMode));
 
 function sceneFloat(){return clamp(scrollY/Math.max(1,innerHeight),0,6)}
 function updateDOM(idx){
@@ -168,8 +186,8 @@ function render(){
  camera.position.x=mix(camera.position.x,baseX+(mobile?0:px*.35),.07);camera.position.y=mix(camera.position.y,baseY+(mobile?0:-py*.22),.07);camera.position.z=mix(camera.position.z,objectZ+8.2,.075);
  look.set(objectX+(mobile?0:px*.22),objectY+(mobile?0:-py*.12),objectZ);camera.lookAt(look);camera.rotation.z+=clamp(velocity,-40,40)*.00004;
  const targetFov=(mobile?48:41)+Math.min(10,Math.abs(velocity)*.055);camera.fov=mix(camera.fov,targetFov,.08);camera.updateProjectionMatrix();
- tempColor.copy(bgColors[i]).lerp(bgColors[j],eased);renderer.setClearColor(tempColor,1);scene.fog=new THREE.FogExp2(tempColor,mobile?.035:.028);
- rim.color.copy(tempColor).lerp(new THREE.Color(0xffffff),.52);warm.intensity=45+Math.sin(time*.4)*8;
+ const activeBg=darkMode?darkBgColors:lightBgColors;tempColor.copy(activeBg[i]).lerp(activeBg[j],eased);renderer.setClearColor(tempColor,1);scene.fog=new THREE.FogExp2(tempColor,mobile?.035:.028);
+ rim.color.copy(tempColor).lerp(new THREE.Color(darkMode?0xffffff:0x9fa9b7),darkMode?.52:.34);warm.intensity=(darkMode?45:30)+Math.sin(time*.4)*6;
  renderer.render(scene,camera)
 }
 
